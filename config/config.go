@@ -32,6 +32,7 @@ func Init() {
 	envConfig = viper.New()
 	envConfig.AddConfigPath(".")
 	envConfig.AddConfigPath("../")
+	envConfig.AddConfigPath("../../")
 	envConfig.SetConfigType("env")
 	envConfig.SetConfigName(`.env`)
 	if err := envConfig.ReadInConfig(); err != nil {

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/capitual/valete_ms/config"
-	"github.com/capitual/valete_ms/server/routes"
+	"github.com/capitual/valete_ms/routes"
 	"github.com/gin-gonic/gin"
 )
 
