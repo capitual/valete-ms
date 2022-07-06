@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/capitual/valete_ms/controllers"
+	"github.com/capitual/valete_ms/integrations/controllers"
 	"github.com/gin-gonic/gin"
 )
 
