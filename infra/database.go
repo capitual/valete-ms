@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/capitual/valete_ms/config"
+	"github.com/capitual/valete_ms/infra/migrations"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 var db *gorm.DB
@@ -26,9 +26,9 @@ func StartDatabase() {
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-		},
+		// NamingStrategy: schema.NamingStrategy{
+		// 	SingularTable: true,
+		// },
 	})
 
 	if err != nil {
@@ -44,7 +44,7 @@ func StartDatabase() {
 	config.SetMaxOpenConns(DbMaxOpensConns)
 	config.SetConnMaxLifetime(time.Hour)
 
-	// migrations.RunAutoMigrations(db)
+	migrations.RunAutoMigrations(db)
 }
 
 func CloseConn() error {
