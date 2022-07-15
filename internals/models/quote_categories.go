@@ -9,8 +9,8 @@ import (
 type QuoteCategory struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	Name      string    `json:"name" validate:"required,min=3,max=50"`
-	Spread    float64   `json:"spread" gorm:"type:float"`
-	Ttls      string    `json:"ttls" validate:"required"`
+	Spread    string    `json:"spread"`
+	Ttls      int64     `json:"ttls" validate:"required"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
