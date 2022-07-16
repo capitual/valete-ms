@@ -23,7 +23,7 @@ func Authorization() gin.HandlerFunc {
 		var p models.Partner
 
 		err := db.First(&p, `partner_key = ? AND partner_id = ?
-		"AND active = true`, partner_key, partner_id).Error
+		AND active = true`, partner_key, partner_id).Error
 
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
