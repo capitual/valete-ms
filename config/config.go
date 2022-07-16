@@ -22,6 +22,7 @@ type App struct {
 	OwsKey                  string `mapstructure:"ows_key"`
 	OwsSecret               string `mapstructure:"ows_secret"`
 	OwsUrlBase              string `mapstructure:"ows_url_base"`
+	ApiSecret               string `mapstructure:"api_secret"`
 }
 
 var envConfig *viper.Viper
