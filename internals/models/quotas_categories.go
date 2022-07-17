@@ -6,17 +6,17 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type QuoteCategory struct {
+type QuotasCategory struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	Name      string    `json:"name" validate:"required,min=3,max=50"`
 	Spread    string    `json:"spread"`
-	Ttls      int64     `json:"ttls" validate:"required"`
+	Ttls      int       `json:"ttls" validate:"required"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func (QuoteCategorie *QuoteCategory) Prepare() error {
-	err := QuoteCategorie.validate()
+func (quotaCategory *QuotasCategory) Prepare() error {
+	err := quotaCategory.validate()
 
 	if err != nil {
 		return err
@@ -25,7 +25,7 @@ func (QuoteCategorie *QuoteCategory) Prepare() error {
 	return nil
 }
 
-func (quoteCategory *QuoteCategory) validate() error {
+func (quotaCategory *QuotasCategory) validate() error {
 	validate := validator.New()
-	return validate.Struct(quoteCategory)
+	return validate.Struct(quotaCategory)
 }

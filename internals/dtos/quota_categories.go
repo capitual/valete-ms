@@ -1,7 +1,7 @@
 package dtos
 
-type QuoteCategoryDto struct {
+type QuotaCategoryDto struct {
 	Name   string `json:"name"`
 	Spread string `json:"spread"`
-	Ttls   int64  `json:"ttls"`
+	Ttls   int    `json:"ttls"`
 }

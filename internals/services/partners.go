@@ -56,7 +56,7 @@ func (s *PartnerService) RevogatePartner(id int) (bool, error) {
 	return true, nil
 }
 
-func (s *PartnerService) GetAll(filters interface{}, page int, size int) (models.PartnerList, error) {
+func (s *PartnerService) GetAll(filters string, page int, size int) (models.PartnerList, error) {
 	partner_list, err := s.repository.GetAll(filters, page, size)
 
 	if err != nil {

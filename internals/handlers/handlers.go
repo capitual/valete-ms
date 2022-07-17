@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -12,9 +13,10 @@ type Response struct {
 	Success bool        `json:"success"`
 }
 
-func getPagination(c *gin.Context) (int, int) {
+func getPagination(c *gin.Context) (int, int, string) {
 	pageQ := c.Query("page")
 	sizeQ := c.Query("size")
+	filter := c.Query("filter")
 
 	var page int
 	var size int
@@ -28,7 +30,8 @@ func getPagination(c *gin.Context) (int, int) {
 		size = 10
 	}
 
-	return page, size
+	fmt.Println(filter)
+	return page, size, filter
 }
 
 func errorResponse(err error) *Response {

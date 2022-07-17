@@ -1,9 +1,6 @@
 package repositories
 
 import (
-	"fmt"
-	"math"
-
 	infra "github.com/capitual/valete_ms/infra"
 	"github.com/capitual/valete_ms/internals/models"
 )
@@ -41,13 +38,12 @@ func (s *PartnersRepository) Update(p models.Partner) (models.Partner, error) {
 	return p, nil
 }
 
-func (s *PartnersRepository) GetAll(filters interface{}, page int, size int) (models.PartnerList, error) {
+func (s *PartnersRepository) GetAll(filter string, page int, size int) (models.PartnerList, error) {
 	db := infra.GetDatabase()
 
 	var p []*models.Partner
-	err := db.Limit(size).Offset((page - 1) * size).Find(&p).Error
+	err := db.Limit(size).Offset((page - 1) * size).Where(`partner_name LIKE '%` + filter + `%'`).Find(&p).Error
 
-	fmt.Println(p)
 	if err != nil {
 		return models.PartnerList{}, err
 	}
@@ -62,7 +58,7 @@ func (s *PartnersRepository) GetAll(filters interface{}, page int, size int) (mo
 
 	return models.PartnerList{
 		Body:       p,
-		TotalCount: int(math.Ceil(float64(count) / float64(size))),
+		TotalCount: int(count),
 		TotalPages: ((int(count)) / size) + 1,
 	}, nil
 }

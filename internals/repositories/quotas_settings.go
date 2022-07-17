@@ -5,15 +5,15 @@ import (
 	"github.com/capitual/valete_ms/internals/models"
 )
 
-type QuoteCategoriesRepository struct{}
+type QuotaSettingRepository struct{}
 
-func (s *QuoteCategoriesRepository) Add(q models.QuoteCategory) (models.QuoteCategory, error) {
+func (s *QuotaSettingRepository) Add(q models.QuotasSetting) (models.QuotasSetting, error) {
 	db := infra.GetDatabase()
 
 	err := db.Create(&q).Error
 
 	if err != nil {
-		return models.QuoteCategory{}, err
+		return models.QuotasSetting{}, err
 	}
 
 	return q, nil

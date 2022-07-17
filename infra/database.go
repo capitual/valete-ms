@@ -26,6 +26,7 @@ func StartDatabase() {
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, DbSSlMode, DbPass)
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
 		// NamingStrategy: schema.NamingStrategy{
 		// 	SingularTable: true,
 		// },

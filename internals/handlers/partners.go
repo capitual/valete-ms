@@ -80,12 +80,12 @@ func RevogatePartner(c *gin.Context) {
 }
 
 func GetAllPartners(c *gin.Context) {
-	page, size := getPagination(c)
+	page, size, filter := getPagination(c)
 
 	repository := &repositories.PartnersRepository{}
 	service := services.NewPartnerService(repository)
 
-	result, err := service.GetAll(nil, page, size)
+	result, err := service.GetAll(filter, page, size)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))

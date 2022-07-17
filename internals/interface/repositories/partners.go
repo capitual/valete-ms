@@ -8,5 +8,5 @@ type IPartnerRepository interface {
 	Add(p models.Partner) (models.Partner, error)
 	GetById(id int) (models.Partner, error)
 	Update(p models.Partner) (models.Partner, error)
-	GetAll(filters interface{}, page int, size int) (models.PartnerList, error)
+	GetAll(filters string, page int, size int) (models.PartnerList, error)
 }

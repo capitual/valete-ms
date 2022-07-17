@@ -9,15 +9,16 @@ import (
 )
 
 type Partner struct {
-	ID          uint      `json:"id" gorm:"primaryKey"`
-	PartnerName string    `json:"partner_name" validate:"required,min=3,max=50"`
-	PartnerKey  string    `json:"partner_key,omitempty" validate:"required"`
-	PartnerId   string    `json:"partner_id,omitempty" validate:"required"`
-	Country     string    `json:"country" validate:"required,min=3,max=50"`
-	Locale      string    `json:"locale" validate:"required,min=2,max=5"`
-	Active      bool      `json:"active"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID             uint   `json:"id" gorm:"primaryKey"`
+	PartnerName    string `json:"partner_name" validate:"required,min=3,max=50"`
+	PartnerKey     string `json:"partner_key,omitempty" validate:"required"`
+	PartnerId      string `json:"partner_id,omitempty" validate:"required"`
+	Country        string `json:"country" validate:"required,min=3,max=50"`
+	Locale         string `json:"locale" validate:"required,min=2,max=5"`
+	Active         bool   `json:"active"`
+	QuotasSettings []QuotasSetting
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
 }
 
 func (partner *Partner) Prepare() error {

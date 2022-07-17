@@ -16,13 +16,17 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 		}
 		internals := main.Group("internals")
 		{
-			internals.POST("/categories", internals_routes.NewQuoteCategory)
+			internals.POST("/categories", internals_routes.NewQuotaCategory)
 			partners := internals.Group("partners")
 			{
 				partners.POST("/", internals_routes.NewPartner)
 				partners.GET("/:id", middlewares.Secret(), internals_routes.GetPartnerById)
 				partners.PUT("/:id", middlewares.Secret(), internals_routes.RevogatePartner)
 				partners.GET("/", internals_routes.GetAllPartners)
+			}
+			quotasSettings := internals.Group("settings")
+			{
+				quotasSettings.POST("/", middlewares.Authorization(), internals_routes.NewQuotaSetting)
 			}
 		}
 	}
