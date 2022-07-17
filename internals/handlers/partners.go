@@ -10,6 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// NewPartner godoc
+// @Summary      New Partner
+// @Description  Create a new partner to consuming our api
+// @Tags         partners
+// @Accept       json
+// @Produce      json
+// @Param        partner body dtos.PartnerDto true "Add Partner"
+// @Success      200  {object}  models.Partner
+// @Failure      400  {object}  HTTPError
+// @Router       /internals/partners [post]
 func NewPartner(c *gin.Context) {
 	var p dtos.PartnerDto
 
@@ -33,6 +43,16 @@ func NewPartner(c *gin.Context) {
 	c.JSON(http.StatusOK, successResponse(result))
 }
 
+// GetPartner godoc
+// @Summary      Get Partner
+// @Description  get partner by id
+// @Tags         partners
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Partner id"
+// @Success      200  {object}  models.Partner
+// @Failure      400  {object}  HTTPError
+// @Router       /internals/partners/{id} [get]
 func GetPartnerById(c *gin.Context) {
 	id := c.Param("id")
 

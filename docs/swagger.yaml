@@ -1,0 +1,131 @@
+definitions:
+  dtos.PartnerDto:
+    properties:
+      country:
+        type: string
+      locale:
+        type: string
+      partner_name:
+        type: string
+    type: object
+  handlers.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  models.Partner:
+    properties:
+      active:
+        type: boolean
+      country:
+        maxLength: 50
+        minLength: 3
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      locale:
+        maxLength: 5
+        minLength: 2
+        type: string
+      partner_id:
+        type: string
+      partner_key:
+        type: string
+      partner_name:
+        maxLength: 50
+        minLength: 3
+        type: string
+      settings:
+        items:
+          $ref: '#/definitions/models.QuotasSetting'
+        type: array
+      updated_at:
+        type: string
+    required:
+    - country
+    - locale
+    - partner_id
+    - partner_key
+    - partner_name
+    type: object
+  models.QuotasSetting:
+    properties:
+      created_at:
+        type: string
+      currency:
+        maxLength: 30
+        minLength: 3
+        type: string
+      expires_in:
+        type: integer
+      id:
+        type: integer
+      partner_id:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - currency
+    - expires_in
+    type: object
+info:
+  contact: {}
+paths:
+  /internals/partners:
+    post:
+      consumes:
+      - application/json
+      description: Create a new partner to consuming our api
+      parameters:
+      - description: Add Partner
+        in: body
+        name: partner
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.PartnerDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Partner'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.HTTPError'
+      summary: New Partner
+      tags:
+      - partners
+  /internals/partners/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get partner by id
+      parameters:
+      - description: Partner id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Partner'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.HTTPError'
+      summary: Get Partner
+      tags:
+      - partners
+swagger: "2.0"

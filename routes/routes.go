@@ -30,5 +30,8 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			}
 		}
 	}
+
+	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// main.Run(":8080")
 	return router
 }

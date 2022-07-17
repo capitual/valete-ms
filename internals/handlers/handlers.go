@@ -42,6 +42,11 @@ func errorResponse(err error) *Response {
 	}
 }
 
+type HTTPError struct {
+	Code    int    `json:"code" example:"400"`
+	Message string `json:"message" example:"status bad request"`
+}
+
 func successResponse(data interface{}) *Response {
 	return &Response{
 		Body:    data,
