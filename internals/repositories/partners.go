@@ -35,7 +35,12 @@ func (s *PartnersRepository) GetById(id int) (models.Partner, error) {
 
 func (s *PartnersRepository) Update(p models.Partner) (models.Partner, error) {
 	db := infra.GetDatabase()
-	db.Save(&p)
+	err := db.Save(&p).Error
+
+	if err != nil {
+		return models.Partner{}, err
+	}
+
 	return p, nil
 }
 
