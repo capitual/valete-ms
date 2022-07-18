@@ -47,6 +47,11 @@ type HTTPError struct {
 	Message string `json:"message" example:"status bad request"`
 }
 
+type HTTPUnauthorized struct {
+	Code    int    `json:"code" example:"401"`
+	Message string `json:"message" example:"Unauthorized"`
+}
+
 func successResponse(data interface{}) *Response {
 	return &Response{
 		Body:    data,

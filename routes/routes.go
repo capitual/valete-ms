@@ -21,7 +21,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			{
 				partners.POST("/", internals_routes.NewPartner)
 				partners.GET("/:id", middlewares.Secret(), internals_routes.GetPartnerById)
-				partners.PUT("/:id", middlewares.Secret(), internals_routes.RevogatePartner)
+				partners.PUT("/revogate/:id", middlewares.Secret(), internals_routes.RevogatePartner)
 				partners.GET("/", internals_routes.GetAllPartners)
 			}
 			quotasSettings := internals.Group("settings")

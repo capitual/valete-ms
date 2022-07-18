@@ -17,6 +17,66 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/internals/partners": {
+            "get": {
+                "description": "Get all partner",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "partners"
+                ],
+                "summary": "Get All Partner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "int valid",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "int valid",
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "string valid",
+                        "name": "filter",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "api secret",
+                        "name": "x-api-secret",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HTTPError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HTTPUnauthorized"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create a new partner to consuming our api",
                 "consumes": [
@@ -44,13 +104,64 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Partner"
+                            "$ref": "#/definitions/handlers.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/handlers.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/internals/partners/revogate/{id}": {
+            "put": {
+                "description": "Revogate partner to use our api",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "partners"
+                ],
+                "summary": "Revogate Partner",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Partner id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "api secret",
+                        "name": "x-api-secret",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HTTPError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HTTPUnauthorized"
                         }
                     }
                 }
@@ -76,19 +187,32 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "api secret",
+                        "name": "x-api-secret",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Partner"
+                            "$ref": "#/definitions/handlers.Response"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/handlers.HTTPError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.HTTPUnauthorized"
                         }
                     }
                 }
@@ -123,83 +247,28 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Partner": {
+        "handlers.HTTPUnauthorized": {
             "type": "object",
-            "required": [
-                "country",
-                "locale",
-                "partner_id",
-                "partner_key",
-                "partner_name"
-            ],
             "properties": {
-                "active": {
-                    "type": "boolean"
+                "code": {
+                    "type": "integer",
+                    "example": 401
                 },
-                "country": {
+                "message": {
                     "type": "string",
-                    "maxLength": 50,
-                    "minLength": 3
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "locale": {
-                    "type": "string",
-                    "maxLength": 5,
-                    "minLength": 2
-                },
-                "partner_id": {
-                    "type": "string"
-                },
-                "partner_key": {
-                    "type": "string"
-                },
-                "partner_name": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 3
-                },
-                "settings": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.QuotasSetting"
-                    }
-                },
-                "updated_at": {
-                    "type": "string"
+                    "example": "Unauthorized"
                 }
             }
         },
-        "models.QuotasSetting": {
+        "handlers.Response": {
             "type": "object",
-            "required": [
-                "currency",
-                "expires_in"
-            ],
             "properties": {
-                "created_at": {
+                "data": {},
+                "message": {
                     "type": "string"
                 },
-                "currency": {
-                    "type": "string",
-                    "maxLength": 30,
-                    "minLength": 3
-                },
-                "expires_in": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "partner_id": {
-                    "type": "integer"
-                },
-                "updated_at": {
-                    "type": "string"
+                "success": {
+                    "type": "boolean"
                 }
             }
         }

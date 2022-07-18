@@ -23,7 +23,8 @@ func (s *PartnersRepository) GetById(id int) (models.Partner, error) {
 
 	var partner models.Partner
 
-	err := db.First(&partner, "id = ?", id).Error
+	err := db.Select(`id, partner_name, country, locale, 
+	active, created_at, updated_at`).First(&partner, "id = ?", id).Error
 
 	if err != nil {
 		return models.Partner{}, err
@@ -42,7 +43,8 @@ func (s *PartnersRepository) GetAll(filter string, page int, size int) (models.P
 	db := infra.GetDatabase()
 
 	var p []*models.Partner
-	err := db.Limit(size).Offset((page - 1) * size).Where(`partner_name LIKE '%` + filter + `%'`).Find(&p).Error
+	err := db.Limit(size).Offset((page - 1) * size).Select(`id, partner_name, country, locale, 
+	active, created_at, updated_at`).Where(`partner_name LIKE '%` + filter + `%'`).Find(&p).Error
 
 	if err != nil {
 		return models.PartnerList{}, err

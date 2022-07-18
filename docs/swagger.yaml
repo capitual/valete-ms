@@ -17,67 +17,67 @@ definitions:
         example: status bad request
         type: string
     type: object
-  models.Partner:
+  handlers.HTTPUnauthorized:
     properties:
-      active:
-        type: boolean
-      country:
-        maxLength: 50
-        minLength: 3
-        type: string
-      created_at:
-        type: string
-      id:
+      code:
+        example: 401
         type: integer
-      locale:
-        maxLength: 5
-        minLength: 2
+      message:
+        example: Unauthorized
         type: string
-      partner_id:
-        type: string
-      partner_key:
-        type: string
-      partner_name:
-        maxLength: 50
-        minLength: 3
-        type: string
-      settings:
-        items:
-          $ref: '#/definitions/models.QuotasSetting'
-        type: array
-      updated_at:
-        type: string
-    required:
-    - country
-    - locale
-    - partner_id
-    - partner_key
-    - partner_name
     type: object
-  models.QuotasSetting:
+  handlers.Response:
     properties:
-      created_at:
+      data: {}
+      message:
         type: string
-      currency:
-        maxLength: 30
-        minLength: 3
-        type: string
-      expires_in:
-        type: integer
-      id:
-        type: integer
-      partner_id:
-        type: integer
-      updated_at:
-        type: string
-    required:
-    - currency
-    - expires_in
+      success:
+        type: boolean
     type: object
 info:
   contact: {}
 paths:
   /internals/partners:
+    get:
+      consumes:
+      - application/json
+      description: Get all partner
+      parameters:
+      - description: int valid
+        in: query
+        name: page
+        type: integer
+      - description: int valid
+        in: query
+        name: size
+        type: integer
+      - description: string valid
+        in: query
+        name: filter
+        type: string
+      - description: api secret
+        in: header
+        name: x-api-secret
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.HTTPUnauthorized'
+      summary: Get All Partner
+      tags:
+      - partners
     post:
       consumes:
       - application/json
@@ -95,7 +95,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Partner'
+            $ref: '#/definitions/handlers.Response'
         "400":
           description: Bad Request
           schema:
@@ -114,18 +114,61 @@ paths:
         name: id
         required: true
         type: integer
+      - description: api secret
+        in: header
+        name: x-api-secret
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Partner'
+            $ref: '#/definitions/handlers.Response'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.HTTPUnauthorized'
       summary: Get Partner
+      tags:
+      - partners
+  /internals/partners/revogate/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Revogate partner to use our api
+      parameters:
+      - description: Partner id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: api secret
+        in: header
+        name: x-api-secret
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.HTTPError'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.HTTPUnauthorized'
+      summary: Revogate Partner
       tags:
       - partners
 swagger: "2.0"

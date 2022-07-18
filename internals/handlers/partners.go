@@ -17,7 +17,7 @@ import (
 // @Accept       json
 // @Produce      json
 // @Param        partner body dtos.PartnerDto true "Add Partner"
-// @Success      200  {object}  models.Partner
+// @Success      200  {object}  Response
 // @Failure      400  {object}  HTTPError
 // @Router       /internals/partners [post]
 func NewPartner(c *gin.Context) {
@@ -50,8 +50,10 @@ func NewPartner(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        id   path      int  true  "Partner id"
-// @Success      200  {object}  models.Partner
+// @Param        x-api-secret  	header    string  true  "api secret"
+// @Success      200  {object}  Response
 // @Failure      400  {object}  HTTPError
+// @Failure      401  {object}  HTTPUnauthorized
 // @Router       /internals/partners/{id} [get]
 func GetPartnerById(c *gin.Context) {
 	id := c.Param("id")
@@ -76,6 +78,18 @@ func GetPartnerById(c *gin.Context) {
 	c.JSON(http.StatusOK, successResponse(partner))
 }
 
+// GetPartner godoc
+// @Summary      Revogate Partner
+// @Description  Revogate partner to use our api
+// @Tags         partners
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Partner id"
+// @Param        x-api-secret  	header    string  true  "api secret"
+// @Success      200  {object}  Response
+// @Failure      400  {object}  HTTPError
+// @Failure      401  {object}  HTTPUnauthorized
+// @Router       /internals/partners/revogate/{id} [put]
 func RevogatePartner(c *gin.Context) {
 	id := c.Param("id")
 
@@ -99,6 +113,20 @@ func RevogatePartner(c *gin.Context) {
 	c.JSON(http.StatusOK, successResponse(success))
 }
 
+// GetPartner godoc
+// @Summary      Get All Partner
+// @Description  Get all partner
+// @Tags         partners
+// @Accept       json
+// @Produce      json
+// @Param        page           query     int     false  "int valid"
+// @Param        size           query     int     false  "int valid"
+// @Param        filter         query     string  false  "string valid"
+// @Param        x-api-secret  	header    string  true  "api secret"
+// @Success      200  {object}  Response
+// @Failure      400  {object}  HTTPError
+// @Failure      401  {object}  HTTPUnauthorized
+// @Router       /internals/partners [get]
 func GetAllPartners(c *gin.Context) {
 	page, size, filter := getPagination(c)
 
