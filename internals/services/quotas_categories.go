@@ -6,26 +6,27 @@ import (
 	"github.com/capitual/valete_ms/internals/models"
 )
 
-type QuotaCategoryService struct {
-	repository repositories.IQuotaCategoryRepository
+type QuoteCategoryService struct {
+	repository repositories.IQuoteCategoryRepository
 }
 
-func (s *QuotaCategoryService) CreateQuotaCategory(data dtos.QuotaCategoryDto) (models.QuotasCategory, error) {
-	quote_categories := &models.QuotasCategory{
-		Name:   data.Name,
-		Spread: data.Spread,
-		Ttls:   data.Ttls,
+func (s *QuoteCategoryService) CreateQuoteCategory(data dtos.QuoteCategoryDto) (models.QuotesCategory, error) {
+	quote_categories := &models.QuotesCategory{
+		Name:      data.Name,
+		SpreadAsk: data.SpreadAsk,
+		SpreadBid: data.SpreadBid,
+		Ttls:      data.Ttls,
 	}
 	err := quote_categories.Prepare()
 
 	if err != nil {
-		return models.QuotasCategory{}, err
+		return models.QuotesCategory{}, err
 	}
 	return s.repository.Add(*quote_categories)
 }
 
-func NewQuotaCategoryService(r repositories.IQuotaCategoryRepository) *QuotaCategoryService {
-	return &QuotaCategoryService{
+func NewQuoteCategoryService(r repositories.IQuoteCategoryRepository) *QuoteCategoryService {
+	return &QuoteCategoryService{
 		repository: r,
 	}
 }

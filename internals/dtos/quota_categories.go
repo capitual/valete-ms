@@ -1,7 +1,8 @@
 package dtos
 
-type QuotaCategoryDto struct {
-	Name   string `json:"name"`
-	Spread string `json:"spread"`
-	Ttls   int    `json:"ttls"`
+type QuoteCategoryDto struct {
+	Name      string `json:"name"`
+	SpreadAsk string `json:"spread_ask"`
+	SpreadBid string `json:"spread_bid"`
+	Ttls      int    `json:"ttls"`
 }

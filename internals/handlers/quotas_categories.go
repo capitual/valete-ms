@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewQuotaCategory(c *gin.Context) {
-	var q dtos.QuotaCategoryDto
+func NewQuoteCategory(c *gin.Context) {
+	var q dtos.QuoteCategoryDto
 
 	err := c.ShouldBindJSON(&q)
 
@@ -19,10 +19,10 @@ func NewQuotaCategory(c *gin.Context) {
 		return
 	}
 
-	repository := &repositories.QuotaCategoriesRepository{}
-	service := services.NewQuotaCategoryService(repository)
+	repository := &repositories.QuoteCategoriesRepository{}
+	service := services.NewQuoteCategoryService(repository)
 
-	result, err := service.CreateQuotaCategory(q)
+	result, err := service.CreateQuoteCategory(q)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))

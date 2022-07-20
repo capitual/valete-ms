@@ -2,6 +2,6 @@ package repositories
 
 import "github.com/capitual/valete_ms/internals/models"
 
-type IQuotaCategoryRepository interface {
-	Add(q models.QuotasCategory) (models.QuotasCategory, error)
+type IQuoteCategoryRepository interface {
+	Add(q models.QuotesCategory) (models.QuotesCategory, error)
 }

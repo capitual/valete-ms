@@ -49,7 +49,7 @@ func (s *PartnersRepository) GetAll(filter string, page int, size int) (models.P
 
 	var p []*models.Partner
 	err := db.Limit(size).Offset((page - 1) * size).Select(`id, partner_name, country, locale, 
-	active, created_at, updated_at`).Where(`partner_name LIKE '%` + filter + `%'`).Find(&p).Error
+	active, created_at, updated_at`).Where(`partner_name ILIKE '%` + filter + `%'`).Find(&p).Error
 
 	if err != nil {
 		return models.PartnerList{}, err

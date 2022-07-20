@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewQuoteSetting(c *gin.Context) {
-	var dto dtos.QuoteSettingDto
+func NewCurrency(c *gin.Context) {
+	var dto dtos.CurrencyDto
 
 	err := c.ShouldBindJSON(&dto)
 
@@ -18,25 +18,12 @@ func NewQuoteSetting(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-	partner, _ := c.Get("partner")
-	partner_id, ok := partner.(uint)
 
-	// switch partner.(type) {
-	// 	case uint, uint32, uint64, int, int16, int32, int64 :
-	// 	case string:
-	// }
+	repository := &repositories.CurrencyRepository{}
 
-	if !ok {
-		c.JSON(http.StatusBadRequest, errorResponse(err))
-		return
-	}
+	service := services.NewCurrencyService(repository)
 
-	dto.PartnerId = partner_id
-
-	repository := &repositories.QuoteSettingRepository{}
-	service := services.NewQuoteSettingService(repository)
-
-	result, err := service.CreateQuoteSetting(dto)
+	result, err := service.CreateCurrency(dto)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
@@ -44,5 +31,21 @@ func NewQuoteSetting(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, successResponse(result))
+}
 
+func ListCurrencies(c *gin.Context) {
+	search := c.Query("search")
+
+	repository := &repositories.CurrencyRepository{}
+
+	service := services.NewCurrencyService(repository)
+
+	result, err := service.ListCurrencies(search)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	c.JSON(http.StatusOK, successResponse(result))
 }

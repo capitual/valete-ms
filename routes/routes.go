@@ -16,7 +16,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 		}
 		internals := main.Group("internals")
 		{
-			internals.POST("/categories", internals_routes.NewQuotaCategory)
+			internals.POST("/categories", internals_routes.NewQuoteCategory)
 			partners := internals.Group("partners")
 			{
 				partners.POST("/", internals_routes.NewPartner)
@@ -24,9 +24,14 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 				partners.PUT("/revogate/:id", middlewares.Secret(), internals_routes.RevogatePartner)
 				partners.GET("/", internals_routes.GetAllPartners)
 			}
-			quotasSettings := internals.Group("settings")
+			quotesSettings := internals.Group("settings")
 			{
-				quotasSettings.POST("/", middlewares.Authorization(), internals_routes.NewQuotaSetting)
+				quotesSettings.POST("/", middlewares.Authorization(), internals_routes.NewQuoteSetting)
+			}
+			currencies := internals.Group("currencies")
+			{
+				currencies.POST("/", internals_routes.NewCurrency)
+				currencies.GET("/", internals_routes.ListCurrencies)
 			}
 		}
 	}

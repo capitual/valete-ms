@@ -6,27 +6,27 @@ import (
 	"github.com/capitual/valete_ms/internals/models"
 )
 
-type QuotaSettingService struct {
-	repository repositories.IQuotaSettingRepository
+type QuoteSettingService struct {
+	repository repositories.IQuoteSettingRepository
 }
 
-func (s *QuotaSettingService) CreateQuotaSetting(dto dtos.QuotaSettingDto) (models.QuotasSetting, error) {
-	quotaSetting := &models.QuotasSetting{
-		PartnerId: dto.PartnerId,
-		ExpiresIn: dto.ExpiresIn,
-		Currency:  dto.Currency,
+func (s *QuoteSettingService) CreateQuoteSetting(dto dtos.QuoteSettingDto) (models.QuotesSetting, error) {
+	quoteSetting := &models.QuotesSetting{
+		PartnerId:  dto.PartnerId,
+		ExpiresIn:  dto.ExpiresIn,
+		CurrencyId: dto.Currency,
 	}
 
-	err := quotaSetting.Prepare()
+	err := quoteSetting.Prepare()
 	if err != nil {
-		return models.QuotasSetting{}, err
+		return models.QuotesSetting{}, err
 	}
 
-	return s.repository.Add(*quotaSetting)
+	return s.repository.Add(*quoteSetting)
 }
 
-func NewQuotaSettingService(r repositories.IQuotaSettingRepository) *QuotaSettingService {
-	return &QuotaSettingService{
+func NewQuoteSettingService(r repositories.IQuoteSettingRepository) *QuoteSettingService {
+	return &QuoteSettingService{
 		repository: r,
 	}
 }

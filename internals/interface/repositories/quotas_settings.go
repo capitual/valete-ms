@@ -2,7 +2,7 @@ package repositories
 
 import "github.com/capitual/valete_ms/internals/models"
 
-type IQuotaSettingRepository interface {
-	Add(q models.QuotasSetting) (models.QuotasSetting, error)
+type IQuoteSettingRepository interface {
+	Add(q models.QuotesSetting) (models.QuotesSetting, error)
 	// GetById(id uint) (models.QuotasSetting, error)
 }

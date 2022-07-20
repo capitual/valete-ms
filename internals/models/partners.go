@@ -10,15 +10,16 @@ import (
 
 type Partner struct {
 	ID          uint            `json:"id" gorm:"primaryKey"`
-	PartnerName string          `json:"partner_name" validate:"required,min=3,max=50"`
-	PartnerKey  string          `json:"partner_key,omitempty" validate:"required"`
-	PartnerId   string          `json:"partner_id,omitempty" validate:"required"`
-	Country     string          `json:"country" validate:"required,min=3,max=50"`
-	Locale      string          `json:"locale" validate:"required,min=2,max=5"`
-	Active      bool            `json:"active"`
-	Settings    []QuotasSetting `json:"quotas_settings,omitempty"`
-	CreatedAt   time.Time       `json:"created_at"`
-	UpdatedAt   time.Time       `json:"updated_at"`
+	PartnerName string          `json:"partner_name" validate:"required,min=3,max=50" gorm:"not null"`
+	PartnerKey  string          `json:"partner_key,omitempty" validate:"required" gorm:"not null"`
+	PartnerId   string          `json:"partner_id,omitempty" validate:"required" gorm:"not null"`
+	Country     string          `json:"country" validate:"required,min=3,max=50" gorm:"not null"`
+	Locale      string          `json:"locale" validate:"required,min=2,max=5" gorm:"not null"`
+	Active      bool            `json:"active" gorm:"not null"`
+	Settings    []QuotesSetting `json:"quotes_settings,omitempty" gorm:"foreignKey:PartnerId"`
+	Quotes      []Quote         `json:"quotes,omitempty" gorm:"foreignKey:PartnerId"`
+	CreatedAt   time.Time       `json:"created_at" gorm:"not null"`
+	UpdatedAt   time.Time       `json:"updated_at" gorm:"not null"`
 }
 
 func (partner *Partner) Prepare() error {
