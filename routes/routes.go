@@ -33,6 +33,10 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 				currencies.POST("/", internals_routes.NewCurrency)
 				currencies.GET("/", internals_routes.ListCurrencies)
 			}
+			quote_partners := internals.Group("quotepartners")
+			{
+				quote_partners.POST("/", internals_routes.NewQuotePartner)
+			}
 		}
 	}
 
